@@ -60,16 +60,31 @@ nav a:hover{color:var(--ink);border-color:var(--teal)}
 .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
 .hero p.lead{font-size:1.25rem;color:var(--muted);max-width:34em}
 .tag{display:inline-block;margin-bottom:1.5rem;padding:.35rem .9rem;border:1px solid var(--line);border-radius:999px;font-size:.9rem;color:var(--muted);background:var(--card)}
-.vessels{width:100%;height:auto;max-height:560px}
-.vessels .v{fill:none;stroke:var(--teal);stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 3.2s .2s cubic-bezier(.5,0,.2,1) forwards}
-.vessels .v.thin{stroke-width:2;opacity:.75} .vessels .v.mid{stroke-width:3.5} .vessels .v.main{stroke-width:6}
-.vessels .ring{fill:none;stroke:var(--blue);stroke-width:2;opacity:0;animation:pop .8s 3s forwards}
-.vessels .bulb{fill:var(--blue);opacity:0;animation:pop .8s 2.8s forwards}
-.vessels .pulse{fill:none;stroke:var(--blue);stroke-width:1.5;transform-origin:292px 168px;opacity:0;animation:pulse 2.8s 3.6s infinite}
-.vessels text{font:500 13px var(--sans);fill:var(--muted);opacity:0;animation:pop .8s 3.4s forwards}
-@keyframes draw{to{stroke-dashoffset:0}}@keyframes pop{to{opacity:1}}
-@keyframes pulse{0%{transform:scale(.6);opacity:.7}100%{transform:scale(2.2);opacity:0}}
-@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.vessels{max-height:340px}}
+/* hero animation: a model travelling toward the clinic (16s loop) */
+.flow{width:100%;height:auto;max-width:480px;justify-self:center}
+.flow text{font-family:var(--sans)}
+.flow .t{font-size:15px;font-weight:600;fill:var(--ink)}
+.flow .s{font-size:12.5px;fill:var(--muted)}
+.flow .rail{stroke:var(--line);stroke-width:4;stroke-linecap:round}
+.flow .prog{stroke:var(--teal);stroke-width:4;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:prog 16s infinite}
+.flow .st{fill:var(--bg);stroke:var(--teal);stroke-width:3}
+.flow .s1{fill:var(--teal)}
+.flow .s2{animation:l2 16s infinite}.flow .s3{animation:l3 16s infinite}.flow .s4{animation:l4 16s infinite}.flow .s5{animation:l5 16s infinite}
+.flow .dot{fill:var(--blue);stroke:var(--bg);stroke-width:3;animation:dot 16s infinite}
+.flow .grp{animation:grp 16s infinite}
+.flow .pill{opacity:0;animation:pill 16s infinite}
+.flow .pill rect{fill:var(--blue)}.flow .pill text{fill:#fff;font-size:12.5px;font-weight:600}
+.flow .stall{fill:none;stroke:var(--blue);stroke-width:2;opacity:0;transform-box:fill-box;transform-origin:center;animation:stall 16s infinite}
+@keyframes grp{0%{opacity:0}2%,96%{opacity:1}98%,100%{opacity:0}}
+@keyframes dot{0%,8%{transform:translateY(0)}20%,30%{transform:translateY(47px)}38%,46%{transform:translateY(95px)}54%,62%{transform:translateY(190px)}70%,82%{transform:translateY(285px)}90%,98.5%{transform:translateY(380px)}98.6%,100%{transform:translateY(0)}}
+@keyframes prog{0%,8%{stroke-dashoffset:1}20%,30%{stroke-dashoffset:.876}38%,46%{stroke-dashoffset:.75}54%,62%{stroke-dashoffset:.5}70%,82%{stroke-dashoffset:.25}90%,98.5%{stroke-dashoffset:0}98.6%,100%{stroke-dashoffset:1}}
+@keyframes l2{0%,36%{fill:var(--bg)}38%,98.5%{fill:var(--teal)}98.6%,100%{fill:var(--bg)}}
+@keyframes l3{0%,52%{fill:var(--bg)}54%,98.5%{fill:var(--teal)}98.6%,100%{fill:var(--bg)}}
+@keyframes l4{0%,68%{fill:var(--bg)}70%,98.5%{fill:var(--teal)}98.6%,100%{fill:var(--bg)}}
+@keyframes l5{0%,88%{fill:var(--bg)}90%,98.5%{fill:var(--teal)}98.6%,100%{fill:var(--bg)}}
+@keyframes pill{0%,10%{opacity:0}14%,30%{opacity:1}34%,100%{opacity:0}}
+@keyframes stall{0%,70%{opacity:0;transform:scale(.7)}72%{opacity:.8}82%{opacity:0;transform:scale(2.2)}100%{opacity:0}}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.flow{max-width:420px}}
 
 /* problem */
 .problem{background:var(--navy);color:#F2EFE8}
@@ -132,7 +147,7 @@ dt{font-weight:600;color:var(--teal-text)}dd{margin:0}
 .contact .row{justify-content:center}
 .contact .btn-ghost{border-color:#F2EFE8;color:#F2EFE8}.contact .btn-ghost:hover{background:#F2EFE8;color:var(--navy)}
 footer{padding:2rem 0;font-size:.9rem;color:var(--muted);text-align:center}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.vessels .v{animation:none;stroke-dashoffset:0}.vessels .ring,.vessels .bulb,.vessels text{animation:none;opacity:1}.vessels .pulse{animation:none}.btn{transition:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.flow *{animation:none!important}.flow .pill{opacity:1}.flow .st{fill:var(--teal)}.flow .prog{stroke-dashoffset:0}.flow .dot{transform:translateY(380px)}.btn{transition:none}}
 </style>
 </head>
 <body>
@@ -167,27 +182,29 @@ footer{padding:2rem 0;font-size:.9rem;color:var(--muted);text-align:center}
         <a class="btn btn-ghost" href="#connect">Let’s Connect</a>
       </div>
     </div>
-    <!-- Abstract vessel tree: decorative, not anatomical -->
-    <svg class="vessels" viewBox="0 0 400 460" role="img" aria-label="Abstract illustration of branching brain vessels with one small highlighted aneurysm">
-      <g>
-        <path class="v main" pathLength="1" d="M200 450 C200 380 195 340 200 290"/>
-        <path class="v mid" pathLength="1" d="M200 290 C170 250 120 235 80 190"/>
-        <path class="v mid" pathLength="1" d="M200 290 C235 255 280 230 292 168"/>
-        <path class="v mid" pathLength="1" d="M200 290 C200 240 205 200 200 130"/>
-        <path class="v thin" pathLength="1" d="M80 190 C60 160 50 130 55 90"/>
-        <path class="v thin" pathLength="1" d="M80 190 C110 170 130 140 120 100"/>
-        <path class="v thin" pathLength="1" d="M200 130 C180 100 170 70 175 35"/>
-        <path class="v thin" pathLength="1" d="M200 130 C220 100 235 70 232 30"/>
-        <path class="v thin" pathLength="1" d="M292 168 C310 140 335 120 350 80"/>
-        <path class="v thin" pathLength="1" d="M292 168 C320 175 345 190 365 225"/>
-        <path class="v thin" pathLength="1" d="M135 245 C110 270 90 300 82 340"/>
-        <path class="v thin" pathLength="1" d="M258 240 C285 270 310 295 322 335"/>
-      </g>
-      <circle class="bulb" cx="292" cy="168" r="9"/>
-      <circle class="ring" cx="292" cy="168" r="20"/>
-      <circle class="pulse" cx="292" cy="168" r="20"/>
-      <text x="312" y="152">a small, easy-to-miss finding</text>
-    </svg>
+    <!-- Animated journey of a medical AI model (decorative; edit station texts below) -->
+    <figure style="margin:0">
+      <svg class="flow" viewBox="0 0 400 460" role="img" aria-label="Animated illustration: a medical AI model travels from a research paper through a readiness snapshot, external validation, workflow integration and regulation before reaching clinical practice.">
+        <g class="grp">
+          <line class="rail" x1="40" y1="50" x2="40" y2="430"/>
+          <line class="prog" pathLength="1" x1="40" y1="50" x2="40" y2="430"/>
+          <circle class="st s1" cx="40" cy="50" r="14"/>
+          <circle class="st s2" cx="40" cy="145" r="14"/>
+          <circle class="st s3" cx="40" cy="240" r="14"/>
+          <circle class="st s4" cx="40" cy="335" r="14"/>
+          <circle class="st s5" cx="40" cy="430" r="14"/>
+          <text class="t" x="72" y="49">Promising model</text><text class="s" x="72" y="67">Strong results in the paper</text>
+          <text class="t" x="72" y="144">External validation</text><text class="s" x="72" y="162">Other hospitals, scanners and patients</text>
+          <text class="t" x="72" y="239">Workflow integration</text><text class="s" x="72" y="257">Radiology routine, systems, clinicians</text>
+          <text class="t" x="72" y="334">Regulation and compliance</text><text class="s" x="72" y="352">Documentation, risk, medical-device rules</text>
+          <text class="t" x="72" y="429">Clinical practice</text><text class="s" x="72" y="447">Monitored use with real patients</text>
+          <g class="pill"><rect x="72" y="84" width="276" height="26" rx="13"/><text x="88" y="101">Readiness Snapshot: what is missing?</text></g>
+          <circle class="stall" cx="40" cy="335" r="20"/>
+          <circle class="dot" cx="40" cy="50" r="9"/>
+        </g>
+      </svg>
+      <figcaption style="text-align:center;font-size:.92rem;color:var(--muted);margin-top:.6rem">The path a promising model travels before it can help patients.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -275,7 +292,7 @@ footer{padding:2rem 0;font-size:.9rem;color:var(--muted);text-align:center}
   <div class="wrap">
     <!-- To add your photo: put portrait.jpg next to index.html and uncomment the img line -->
     <div class="portrait" role="img" aria-label="Placeholder for professional portrait of Ekaterina Golubeva">
-      -- <img src="portrait.jpg" alt="Portrait of Ekaterina Golubeva">
+      <img src="portrait.jpg" alt="Portrait of Ekaterina Golubeva">
       <span>Your professional portrait goes here</span>
     </div>
     <div>
