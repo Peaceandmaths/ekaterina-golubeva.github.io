@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ekaterina Golubeva | Medical imaging AI, from lab to clinic</title>
+<meta name="description" content="Ekaterina Golubeva is a medical imaging AI researcher in Zürich exploring how to help promising algorithms reach clinical practice. Pilot offer: the AI Clinical Readiness Snapshot.">
+<meta name="author" content="Ekaterina Golubeva">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ekaterina Golubeva | Medical AI, from lab to clinic">
+<meta property="og:description" content="Understand what stands between your medical AI model and real-world clinical use.">
+<meta name="theme-color" content="#0B1F3A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🧠%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== EDIT COLORS HERE ===== */
+:root{
+  --navy:#0B1F3A; --teal:#2A9D9A; --teal-soft:#CDE9E6; --blue:#2F5BFF;
+  --bg:#FAF8F4; --ink:#0B1F3A; --muted:#4A5A70; --card:#FFFFFF; --line:#E4E0D6; --teal-text:#1B7673;
+  --serif:'Fraunces',Georgia,'Times New Roman',serif; --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0A1730; --ink:#F2EFE8; --muted:#A9B6C8; --card:#102445; --line:#23375C; --teal-text:#6CCFCB; color-scheme:dark;}}
+:root[data-theme="dark"]{--bg:#0A1730; --ink:#F2EFE8; --muted:#A9B6C8; --card:#102445; --line:#23375C; --teal-text:#6CCFCB; color-scheme:dark;}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(72px + env(safe-area-inset-top,0px))}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.12;letter-spacing:-.015em;margin:0 0 .6em}
+h1{font-size:clamp(2.5rem,6vw,4.4rem)} h2{font-size:clamp(1.9rem,3.6vw,2.7rem)} h3{font-size:1.3rem;letter-spacing:-.005em}
+p{margin:0 0 1em;max-width:62ch} a{color:inherit}
+.wrap{width:min(1120px,100% - 2.5rem);margin-inline:auto}
+section{padding:clamp(4.5rem,9vw,8rem) 0}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:0;background:var(--navy);color:#fff;padding:.6rem 1rem;z-index:50}.skip:focus{left:0}
+
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:1rem}
+.brand{font-family:var(--serif);font-weight:600;text-decoration:none;font-size:1.15rem}
+nav ul{display:flex;gap:1.6rem;list-style:none;margin:0;padding:0;font-size:.95rem}
+nav a{text-decoration:none;color:var(--muted);padding:.3rem 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+nav a:hover{color:var(--ink);border-color:var(--teal)}
+@media(max-width:760px){nav ul li:not(:last-child){display:none}}
+
+/* buttons */
+.btn{display:inline-block;padding:.85rem 1.5rem;border-radius:999px;font-weight:600;text-decoration:none;font-size:1rem;border:2px solid transparent;transition:transform .2s,background .2s,border-color .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:#2347d6}
+.btn-ghost{border-color:var(--ink);color:var(--ink)}.btn-ghost:hover{background:var(--ink);color:var(--bg)}
+.btn-sm{padding:.5rem 1.1rem;font-size:.92rem;border-color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2rem}
+
+/* hero */
+.hero{padding-top:clamp(3rem,7vw,6rem)}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
+.hero p.lead{font-size:1.25rem;color:var(--muted);max-width:34em}
+.tag{display:inline-block;margin-bottom:1.5rem;padding:.35rem .9rem;border:1px solid var(--line);border-radius:999px;font-size:.9rem;color:var(--muted);background:var(--card)}
+.vessels{width:100%;height:auto;max-height:560px}
+.vessels .v{fill:none;stroke:var(--teal);stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 3.2s .2s cubic-bezier(.5,0,.2,1) forwards}
+.vessels .v.thin{stroke-width:2;opacity:.75} .vessels .v.mid{stroke-width:3.5} .vessels .v.main{stroke-width:6}
+.vessels .ring{fill:none;stroke:var(--blue);stroke-width:2;opacity:0;animation:pop .8s 3s forwards}
+.vessels .bulb{fill:var(--blue);opacity:0;animation:pop .8s 2.8s forwards}
+.vessels .pulse{fill:none;stroke:var(--blue);stroke-width:1.5;transform-origin:292px 168px;opacity:0;animation:pulse 2.8s 3.6s infinite}
+.vessels text{font:500 13px var(--sans);fill:var(--muted);opacity:0;animation:pop .8s 3.4s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}@keyframes pop{to{opacity:1}}
+@keyframes pulse{0%{transform:scale(.6);opacity:.7}100%{transform:scale(2.2);opacity:0}}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.vessels{max-height:340px}}
+
+/* problem */
+.problem{background:var(--navy);color:#F2EFE8}
+.problem h2,.problem p{color:#F2EFE8}.problem p{color:#C9D3E2}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+@media(max-width:860px){.story{grid-template-columns:1fr}}
+.journey{display:flex;flex-direction:column;gap:0;margin-top:3rem}
+.stage{padding:1.2rem 1.4rem;border:1px solid #2B4268;border-radius:14px;background:#10294B}
+.stage b{font-family:var(--serif);font-weight:500;font-size:1.2rem;display:block;color:#fff}
+.stage span{font-size:.95rem;color:#AFC0D8}
+.gap{padding:1.1rem 1.4rem;border:2px dashed #6CCFCB;border-radius:14px;margin:.7rem 0 .7rem 1.5rem;color:#CDEEEB;position:relative}
+.gap b{font-family:var(--serif);font-weight:500;font-size:1.2rem;display:block;color:#fff}
+.gap span{font-size:.95rem}
+.gap::before,.gap::after{content:"";position:absolute;left:-1.5rem;width:1.5rem;height:2px;background:#6CCFCB;top:50%}
+.gap::before{display:none}
+@media(min-width:861px){.journey{flex-direction:row;align-items:stretch;margin-top:3.5rem}.journey>*{flex:1}.gap{margin:0 1.2rem;flex:1.2}.gap::before{display:none}.gap::after{display:none}}
+
+/* offer */
+.intro{display:grid;grid-template-columns:1fr 1fr;gap:3rem}
+@media(max-width:860px){.intro{grid-template-columns:1fr}}
+.snapshot{margin-top:3rem;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(1.6rem,4vw,3rem);display:grid;grid-template-columns:1.1fr 1fr;gap:2.5rem;box-shadow:0 18px 50px -28px rgba(11,31,58,.35)}
+@media(max-width:860px){.snapshot{grid-template-columns:1fr}}
+.snapshot h3{font-size:1.9rem}
+.pill{display:inline-block;background:var(--teal-soft);color:#0B3F3D;border-radius:999px;padding:.25rem .8rem;font-size:.85rem;font-weight:600;margin-bottom:1rem}
+.snapshot ul{margin:0;padding:0;list-style:none}
+.snapshot li{padding:.7rem 0 .7rem 2rem;border-bottom:1px solid var(--line);position:relative}
+.snapshot li:last-child{border:0}
+.snapshot li::before{content:"";position:absolute;left:0;top:1.15rem;width:.9rem;height:.9rem;border-radius:50%;border:2px solid var(--teal)}
+.fine{font-size:.93rem;color:var(--muted);border-left:3px solid var(--teal);padding-left:1rem;margin-top:1.4rem}
+.pipeline{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:3rem;counter-reset:s}
+.pipeline div{position:relative;padding:1.1rem 1rem 1.1rem 0;font-family:var(--serif);font-size:1.15rem;border-top:3px solid var(--teal)}
+.pipeline div:nth-child(2){border-color:#3BA7AE}.pipeline div:nth-child(3){border-color:#4A82E0}.pipeline div:nth-child(4){border-color:var(--blue)}
+.pipeline small{display:block;font:400 .92rem/1.5 var(--sans);color:var(--muted);margin-top:.3rem}
+@media(max-width:760px){.pipeline{grid-template-columns:1fr 1fr;row-gap:1rem}}
+.stance{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:4rem;padding-top:2.5rem;border-top:1px solid var(--line)}
+.stance h3{font-size:1.15rem;margin-bottom:.4rem}.stance p{font-size:.98rem;color:var(--muted)}
+@media(max-width:860px){.stance{grid-template-columns:1fr;gap:1.2rem}}
+
+/* how */
+.how{background:color-mix(in srgb,var(--teal-soft) 38%,var(--bg))}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .how{background:#0D1E3D}}
+:root[data-theme="dark"] .how{background:#0D1E3D}
+.steps{list-style:none;margin:2.5rem 0 0;padding:0;display:grid;gap:1.4rem;max-width:760px}
+.steps li{display:grid;grid-template-columns:3rem 1fr;gap:1.2rem;align-items:start}
+.steps .n{width:3rem;height:3rem;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:500 1.2rem var(--serif)}
+.steps h3{margin:.2rem 0 .2rem;font-size:1.2rem}.steps p{margin:0;color:var(--muted)}
+
+/* about */
+.about .wrap{display:grid;grid-template-columns:.7fr 1.3fr;gap:4rem;align-items:start}
+@media(max-width:860px){.about .wrap{grid-template-columns:1fr;gap:2rem}}
+.portrait{aspect-ratio:4/5;border-radius:200px 200px 24px 24px;background:linear-gradient(160deg,var(--navy),#17406B 60%,var(--teal));display:grid;place-items:center;color:#DDEBF0;text-align:center;font-size:.95rem;padding:2rem;max-width:380px;position:relative;overflow:hidden}
+.portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+dl{margin:2rem 0 0;display:grid;grid-template-columns:9rem 1fr;gap:1rem 1.5rem}
+dt{font-weight:600;color:var(--teal-text)}dd{margin:0}
+@media(max-width:560px){dl{grid-template-columns:1fr;gap:.2rem}dd{margin-bottom:.9rem}}
+
+/* contact */
+.contact{background:var(--navy);color:#F2EFE8;text-align:center}
+.contact h2{max-width:20ch;margin-inline:auto;color:#fff}.contact p{margin-inline:auto;color:#C9D3E2}
+.contact .row{justify-content:center}
+.contact .btn-ghost{border-color:#F2EFE8;color:#F2EFE8}.contact .btn-ghost:hover{background:#F2EFE8;color:var(--navy)}
+footer{padding:2rem 0;font-size:.9rem;color:var(--muted);text-align:center}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.vessels .v{animation:none;stroke-dashoffset:0}.vessels .ring,.vessels .bulb,.vessels text{animation:none;opacity:1}.vessels .pulse{animation:none}.btn{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top">Ekaterina Golubeva</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#problem">The problem</a></li>
+        <li><a href="#building">What I’m building</a></li>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a class="btn btn-sm" href="#connect">Let’s connect</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="tag">Medical imaging AI researcher · Zürich</span>
+      <h1>Great medical AI shouldn’t stay in the lab.</h1>
+      <p class="lead">I’m Ekaterina, a medical AI researcher exploring how to turn promising algorithms into tools that can make a difference in clinical practice.</p>
+      <div class="row">
+        <a class="btn btn-primary" href="#building">Explore My Offer</a>
+        <a class="btn btn-ghost" href="#connect">Let’s Connect</a>
+      </div>
+    </div>
+    <!-- Abstract vessel tree: decorative, not anatomical -->
+    <svg class="vessels" viewBox="0 0 400 460" role="img" aria-label="Abstract illustration of branching brain vessels with one small highlighted aneurysm">
+      <g>
+        <path class="v main" pathLength="1" d="M200 450 C200 380 195 340 200 290"/>
+        <path class="v mid" pathLength="1" d="M200 290 C170 250 120 235 80 190"/>
+        <path class="v mid" pathLength="1" d="M200 290 C235 255 280 230 292 168"/>
+        <path class="v mid" pathLength="1" d="M200 290 C200 240 205 200 200 130"/>
+        <path class="v thin" pathLength="1" d="M80 190 C60 160 50 130 55 90"/>
+        <path class="v thin" pathLength="1" d="M80 190 C110 170 130 140 120 100"/>
+        <path class="v thin" pathLength="1" d="M200 130 C180 100 170 70 175 35"/>
+        <path class="v thin" pathLength="1" d="M200 130 C220 100 235 70 232 30"/>
+        <path class="v thin" pathLength="1" d="M292 168 C310 140 335 120 350 80"/>
+        <path class="v thin" pathLength="1" d="M292 168 C320 175 345 190 365 225"/>
+        <path class="v thin" pathLength="1" d="M135 245 C110 270 90 300 82 340"/>
+        <path class="v thin" pathLength="1" d="M258 240 C285 270 310 295 322 335"/>
+      </g>
+      <circle class="bulb" cx="292" cy="168" r="9"/>
+      <circle class="ring" cx="292" cy="168" r="20"/>
+      <circle class="pulse" cx="292" cy="168" r="20"/>
+      <text x="312" y="152">a small, easy-to-miss finding</text>
+    </svg>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="wrap">
+    <div class="story">
+      <h2>The model exists. The patient never meets it.</h2>
+      <div>
+        <p>Picture a radiologist reading hundreds of images in a day, looking for one small abnormality that could change a patient’s life.</p>
+        <p>Somewhere, a research group has already trained an algorithm that could help her. It performed well in the paper.</p>
+        <p>But it never reaches her workstation. It hasn’t been tested on data from other hospitals, nobody has mapped how it would fit into her workflow, and the path through validation, integration and regulation is unclear.</p>
+        <p>The patient never knows what might have been caught earlier. That distance between a promising model and everyday practice is the problem I want to understand better.</p>
+      </div>
+    </div>
+    <div class="journey" aria-label="AI research, then validation gap, then clinical practice">
+      <div class="stage"><b>AI research</b><span>Promising models, strong papers</span></div>
+      <div class="gap"><b>Validation gap</b><span>Evidence, generalizability, workflow, regulation</span></div>
+      <div class="stage"><b>Clinical practice</b><span>Tools that help real patients</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILDING -->
+<section id="building">
+  <div class="wrap">
+    <div class="intro">
+      <h2>What I’m building</h2>
+      <div>
+        <p>My long-term aim is to make the journey from medical AI research to meaningful clinical adoption easier, faster and more evidence-based.</p>
+        <p>I’m at an early stage. I’m testing whether a small, practical first step is useful to the people who face this gap every day.</p>
+      </div>
+    </div>
+
+    <article class="snapshot" aria-labelledby="snap-title">
+      <div>
+        <span class="pill">Pilot offer</span>
+        <h3 id="snap-title">AI Clinical Readiness Snapshot</h3>
+        <p>“Understand what stands between your medical AI model and real-world clinical use.”</p>
+        <p>A concise, one-page preliminary assessment for medical AI developers, early-stage startups and radiology teams. It is built from public papers, documentation and whatever you choose to share.</p>
+        <p class="fine">This is an exploratory research service. It is not regulatory certification, and it is not hospital deployment. No patient data is needed, and please don’t send any.</p>
+      </div>
+      <div>
+        <p style="margin-bottom:.4rem"><strong>What you receive</strong></p>
+        <ul>
+          <li>The clinical problem and intended use case</li>
+          <li>Existing validation evidence</li>
+          <li>Generalizability and dataset limitations</li>
+          <li>Potential clinical workflow challenges</li>
+          <li>Missing evidence and suggested next validation steps</li>
+        </ul>
+      </div>
+    </article>
+
+    <div class="pipeline" role="list" aria-label="Process: existing AI model, evidence review, readiness snapshot, next steps">
+      <div role="listitem">Existing AI model<small>Your published or documented work</small></div>
+      <div role="listitem">Evidence review<small>What is shown, and what isn’t yet</small></div>
+      <div role="listitem">Readiness Snapshot<small>One clear page</small></div>
+      <div role="listitem">Next steps<small>Suggested validation priorities</small></div>
+    </div>
+
+    <div class="stance">
+      <div><h3>What I’ve done</h3><p>Research on deep learning for medical image segmentation, work with real clinical imaging data, and co-organizing an international challenge.</p></div>
+      <div><h3>What I offer now</h3><p>A preliminary, evidence-based snapshot, piloted through conversations. Scope is agreed individually.</p></div>
+      <div><h3>What I hope to build</h3><p>A trusted way for medical AI teams and clinicians to move from promising results toward adoption.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="how" id="how">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p>Three simple steps. The offer is being piloted, so the scope, timing and format are agreed with each person individually.</p>
+    <ol class="steps">
+      <li><span class="n" aria-hidden="true">1</span><div><h3>Share your AI project</h3><p>Send a publication, documentation or a short description of your model. Public or voluntarily shared material only.</p></div></li>
+      <li><span class="n" aria-hidden="true">2</span><div><h3>Receive a preliminary assessment</h3><p>You get a one-page review of the evidence and the potential gaps between your model and clinical use.</p></div></li>
+      <li><span class="n" aria-hidden="true">3</span><div><h3>Discuss possible next steps</h3><p>We talk through which validation steps could matter most, and whether further work makes sense.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap">
+    <!-- To add your photo: put portrait.jpg next to index.html and uncomment the img line -->
+    <div class="portrait" role="img" aria-label="Placeholder for professional portrait of Ekaterina Golubeva">
+      <!-- <img src="portrait.jpg" alt="Portrait of Ekaterina Golubeva"> -->
+      <span>Your professional portrait goes here</span>
+    </div>
+    <div>
+      <h2>About me</h2>
+      <p>I’m a PhD researcher in medical imaging AI at the Zurich University of Applied Sciences (ZHAW) in Zürich. I develop and evaluate deep learning models for medical image segmentation, with a focus on intracranial aneurysms.</p>
+      <p>Working with real clinical imaging data, including collaborations involving Geneva University Hospitals (HUG), has shown me how far a good result in a paper can be from a tool a clinician can rely on. I want to help close that distance. I’m exploring this as a founder-in-the-making, not as an established deployment expert.</p>
+      <dl>
+        <dt>Education</dt><dd>BSc in Mathematics, University of Geneva<br>MSc in Applied Computational Life Sciences, ZHAW</dd>
+        <dt>Research</dt><dd>PhD on AI for medical imaging; deep learning for segmentation of intracranial aneurysms</dd>
+        <dt>Community</dt><dd>Co-organizer of the TopAneu Challenge at MICCAI 2026, an international medical imaging AI challenge</dd>
+        <dt>Technical</dt><dd>Python, PyTorch, TensorFlow, medical image analysis, deep learning, model evaluation</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<section class="contact" id="connect">
+  <div class="wrap">
+    <h2>Let’s collaborate</h2>
+    <p>I’m talking with radiologists, medical AI founders, researchers and healthcare innovators to learn what makes clinical adoption hard, and to explore pilot assessments.</p>
+    <p><strong>Have a medical AI project that deserves to reach clinical practice? Let’s talk.</strong></p>
+    <div class="row">
+      <!-- EDIT: replace with your real LinkedIn URL and email -->
+      <a class="btn btn-primary" href="https://www.linkedin.com/in/YOUR-PROFILE/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="mailto:YOUR.EMAIL@example.com?subject=Clinical%20Readiness%20Snapshot">Email me</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">© <span id="yr">2026</span> Ekaterina Golubeva · Zürich, Switzerland · Research and exploratory services only; no medical advice or regulatory certification.</div>
+</footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>
